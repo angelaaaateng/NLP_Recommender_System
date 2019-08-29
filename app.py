@@ -41,14 +41,30 @@ def find_vocab():
     print("* Model Vocab Loaded")
 
 @app.route('/')
-def my_form():
-    return render_template('./templates/my-form.html')
+#def my_form():
+#    return render_template('./templates/my-form.html')
+def form():
+    return("""
+        <html>
+            <body>
+                <h1><center>NLP Recommender Sysytem</h1>
+
+                <form method="POST">
+                    <input name="text">
+                    <input type="submit">
+                </form>
+
+            </body>
+        </html>
+    """)
 
 @app.route('/', methods=['POST'])
-def my_form_post():
-    text = request.form['text']
-    processed_text = text.upper()
-    return processed_text
+def some_function():
+    text = request.form.get('textbox')
+#def my_form_post():
+#    text = request.form['text']
+#    processed_text = text.upper()
+#    return processed_text
 
 @app.route("/pangeaapp", methods=["GET, POST"])
 def predict():
