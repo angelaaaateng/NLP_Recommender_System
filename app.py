@@ -94,21 +94,37 @@ def predict():
 
     data = {"success": False}
     print("* Initialization ok")
-    # ensure that a json request was properly uploaded to our endpoint
     if flask.request.method == "POST":
     #flask methods: https://www.tutorialspoint.com/flask/flask_http_methods.htm
-        if flask.request.data:
+
         # title = request.form["title"]
+        print("* Locating Title")
             # title = json.loads(flask.request.data)['f']
-            title = json.loads(flask.request.data)["title"]
-            #not using encode('ascii','ignore') as it throws an error
-        # print("*Input Title: ", title)
-            print("*Input Title: ")
-            print(title)
+        title = request.get(f).json()
+        # title = json.loads(flask.request.data)["title"]
+        print("* Input Title: ", title)
+
             #using generate recommendations from pangea python script
-            data["recommendations"] = generate_recommendations(title, model)
+        data["recommendations"] = generate_recommendations(title, model)
             # indicate that the request was a success
-            data["success"] = True
+        data["success"] = True
+    # ensure that a json request was properly uploaded to our endpoint
+    # if flask.request.method == "POST":
+    # #flask methods: https://www.tutorialspoint.com/flask/flask_http_methods.htm
+    #     if flask.request.data:
+    #     # title = request.form["title"]
+    #         print("* Locating Title")
+    #         # title = json.loads(flask.request.data)['f']
+    #         title = json.loads(f)
+    #         #title = json.loads(flask.request.data)["title"]
+    #         #not using encode('ascii','ignore') as it throws an error
+    #     # print("*Input Title: ", title)
+    #         print("* Input Title: ")
+    #         print(title)
+    #         #using generate recommendations from pangea python script
+    #         data["recommendations"] = generate_recommendations(title, model)
+    #         # indicate that the request was a success
+    #         data["success"] = True
     # return the data dictionary as a JSON response
     return flask.jsonify(data)
 
