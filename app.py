@@ -1,14 +1,14 @@
 
 
 import gensim
-from flask import Flask
+from flask import Flask, request, render_template
 import io
 import flask
 import json
 from recommender_lib import generate_recommendations
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 #for more information on flask easy startup see
 #http://flask.pocoo.org/docs/1.0/quickstart/ ;
 #https://teamtreehouse.com/community/can-someone-help-me-understand-flaskname-a-little-better
@@ -40,8 +40,17 @@ def find_vocab():
     return model.vocab
     print("* Model Vocab Loaded")
 
+@app.route('/')
+def my_form():
+    return render_template('./templates/my-form.html')
 
-@app.route("/pangeaapp", methods=["POST"])
+@app.route('/', methods=['POST'])
+def my_form_post():
+    text = request.form['text']
+    processed_text = text.upper()
+    return processed_text
+
+@app.route("/pangeaapp", methods=["GET, POST"])
 def predict():
     '''
     Specify the app route using a route decorater to
