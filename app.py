@@ -49,8 +49,8 @@ def form():
             <body>
                 <h1><center>NLP Recommender System</h1>
 
-                <form action="/pangeaapp" method="POST" enctype="multipart/form-data" onsubmit="showDiv('loading')">
-                    <center> <input type="text" name="title" size="50" required /> </center>
+                <form action="/pangeaapp" method="POST" enctype="multipart/form-data">
+                    <center> <input type="file" name="title" /> </center>
                     <br>
                     <p> </p>
                     <center> <input type="submit"/> </center>
@@ -73,8 +73,8 @@ def form():
 #     <input name="text">
 #     <input type="submit">
 # </form>
-
-@app.route("/pangeaapp", methods=["GET, POST"])
+# @app.route("/", methods=["GET, POST"])
+@app.route("/pangeaapp", methods=['GET', 'POST'])
 def predict():
     '''
     Specify the app route using a route decorater to
@@ -85,22 +85,30 @@ def predict():
 
     Output: JSON with title and cosine similarity score (dict)
     '''
+    print("* Requesting JSON data -- API")
+
+    f = request.files['title']
+
+    if not f:
+        return("No file selected. Please choose a JSON file and try again.")
+
     data = {"success": False}
     print("* Initialization ok")
     # ensure that a json request was properly uploaded to our endpoint
     if flask.request.method == "POST":
     #flask methods: https://www.tutorialspoint.com/flask/flask_http_methods.htm
-        # if flask.request.data:
-        title = request.form["title"]
-            # title = json.loads(flask.request.data)["title"]
+        if flask.request.data:
+        # title = request.form["title"]
+            # title = json.loads(flask.request.data)['f']
+            title = json.loads(flask.request.data)["title"]
             #not using encode('ascii','ignore') as it throws an error
-        print("*Input Title: ", title)
-            # print("*Input Title: ")
-            # print(title)
+        # print("*Input Title: ", title)
+            print("*Input Title: ")
+            print(title)
             #using generate recommendations from pangea python script
-        data["recommendations"] = generate_recommendations(title, model)
+            data["recommendations"] = generate_recommendations(title, model)
             # indicate that the request was a success
-        data["success"] = True
+            data["success"] = True
     # return the data dictionary as a JSON response
     return flask.jsonify(data)
 
