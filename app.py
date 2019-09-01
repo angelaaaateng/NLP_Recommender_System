@@ -88,6 +88,7 @@ def predict():
     print("* Requesting JSON data -- API")
 
     f = request.files['title']
+    # f = request.files['title']
 
     if not f:
         return("No file selected. Please choose a JSON file and try again.")
@@ -100,7 +101,7 @@ def predict():
         # title = request.form["title"]
         print("* Locating Title")
             # title = json.loads(flask.request.data)['f']
-        title = request.get(f).json()
+        title = request.args.get(f).json()
         # title = json.loads(flask.request.data)["title"]
         print("* Input Title: ", title)
 
