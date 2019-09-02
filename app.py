@@ -88,6 +88,7 @@ def predict():
     print("* Requesting JSON data -- API")
 
     f = request.files['title']
+    print(type(f))
     # f = request.files['title']
 
     if not f:
@@ -101,6 +102,7 @@ def predict():
         # title = request.form["title"]
         print("* Locating Title")
             # title = json.loads(flask.request.data)['f']
+        print(type(request.args))
         title = request.args.get(f).json()
         # title = json.loads(flask.request.data)["title"]
         print("* Input Title: ", title)
