@@ -48,9 +48,8 @@ def form():
         <html>
             <body>
                 <h1><center>NLP Recommender System</h1>
-
                 <form action="/pangeaapp" method="POST" enctype="multipart/form-data">
-                    <center> <input type="file" name="title" /> </center>
+                    <center> <input type="file" accept=".json" name="title" /> </center>
                     <br>
                     <p> </p>
                     <center> <input type="submit"/> </center>
@@ -87,12 +86,20 @@ def predict():
     '''
     print("* Requesting JSON data -- API")
 
-    f = request.files['title']
-    print(type(f))
+    if not request.json or not 'title' in request.json:
+        print("!! Title not read !! ")
+    title = {
+        'title': request.json['title'],
+        'done': False
+    }
+    title.append(title)
+    #f = request.files['title']
+    #title = request.get_json(['title'])
+    print(type(title))
     # f = request.files['title']
 
-    if not f:
-        return("No file selected. Please choose a JSON file and try again.")
+    #if not title:
+    #    return("No file selected. Please choose a JSON file and try again.")
 
     data = {"success": False}
     print("* Initialization ok")
@@ -102,8 +109,8 @@ def predict():
         # title = request.form["title"]
         print("* Locating Title")
             # title = json.loads(flask.request.data)['f']
-        print(type(request.args))
-        title = request.args.get(f).json()
+        #print(type(request.args))
+        #title = request.args.get(f).json()
         # title = json.loads(flask.request.data)["title"]
         print("* Input Title: ", title)
 
@@ -111,6 +118,7 @@ def predict():
         data["recommendations"] = generate_recommendations(title, model)
             # indicate that the request was a success
         data["success"] = True
+
     # ensure that a json request was properly uploaded to our endpoint
     # if flask.request.method == "POST":
     # #flask methods: https://www.tutorialspoint.com/flask/flask_http_methods.htm
@@ -129,7 +137,7 @@ def predict():
     #         # indicate that the request was a success
     #         data["success"] = True
     # return the data dictionary as a JSON response
-    return flask.jsonify(data)
+    return flask.jsonify({'task': task}), 201
 
     '''
     Checks to see if the name module was called interactively and
