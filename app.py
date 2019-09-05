@@ -6,6 +6,7 @@ import io
 import flask
 import json
 from recommender_lib import generate_recommendations
+import numpy as np
 
 
 app = Flask(__name__, template_folder='templates')
@@ -28,7 +29,7 @@ def load_model():
     '''
     global model
     model = gensim.models.KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary = True)
-
+    #model = {"cook": np.array([0.5, 0.6])}
     print("* Model loaded successfully")
 
 def find_vocab():
@@ -44,19 +45,31 @@ def find_vocab():
 #def my_form():
 #    return render_template('./templates/my-form.html')
 def form():
+    # return("""
+    #     <html>
+    #         <body>
+    #             <h1><center>NLP Recommender System</h1>
+    #             <form action="/pangeaapp" method="POST" enctype="multipart/form-data">
+    #                 <center> <input type="text" name="title" /> </center>
+    #                 <br>
+    #                 <p> </p>
+    #                 <center> <input type="submit"/> </center>
+    #             </form>
+    #
+    #
+    #
+    #         </body>
+    #     </html>
+    # """)
+
     return("""
         <html>
             <body>
-                <h1><center>NLP Recommender System</h1>
-                <form action="/pangeaapp" method="POST" enctype="multipart/form-data">
-                    <center> <input type="file" accept=".json" name="title" /> </center>
-                    <br>
-                    <p> </p>
-                    <center> <input type="submit"/> </center>
-                </form>
-
-
-
+              <form action = "http://localhost:5000/pangeaapp" method = "post">
+                 <p>Enter Title:</p>
+                 <p><input type = "text" name = "title" /></p>
+                 <p><input type = "submit" value = "submit" /></p>
+              </form>
             </body>
         </html>
     """)
@@ -85,14 +98,14 @@ def predict():
     Output: JSON with title and cosine similarity score (dict)
     '''
     print("* Requesting JSON data -- API")
-
-    if not request.json or not 'title' in request.json:
+    print(request.form['title'])
+    if not request.form or not request.form['title']:
         print("!! Title not read !! ")
-    title = {
-        'title': request.json['title'],
-        'done': False
-    }
-    title.append(title)
+    title =  request.form['title']
+        #'done': False
+    #}
+    #title.append(title)
+
     #f = request.files['title']
     #title = request.get_json(['title'])
     print(type(title))
@@ -137,7 +150,7 @@ def predict():
     #         # indicate that the request was a success
     #         data["success"] = True
     # return the data dictionary as a JSON response
-    return flask.jsonify({'task': task}), 201
+    return data["recommendations"][0] #flask.jsonify({'task': task}), 201
 
     '''
     Checks to see if the name module was called interactively and
