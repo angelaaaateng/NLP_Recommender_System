@@ -8,6 +8,7 @@ import json
 from recommender_lib import generate_recommendations
 import numpy as np
 import pandas as pd
+import imgkit
 
 
 app = Flask(__name__, template_folder='templates')
@@ -87,7 +88,10 @@ def form():
 #     <input type="submit">
 # </form>
 # @app.route("/", methods=["GET, POST"])
+
+
 @app.route("/pangeaapp", methods=['GET', 'POST'])
+
 def predict():
     '''
     Specify the app route using a route decorater to
@@ -133,6 +137,38 @@ def predict():
             # indicate that the request was a success
         data["success"] = True
 
+    # css = """
+    #         <style type=\"text/css\">
+    #         table {
+    #         color: #333;
+    #         font-family: Helvetica, Arial, sans-serif;
+    #         width: 640px;
+    #         border-collapse:
+    #         collapse;
+    #         border-spacing: 0;
+    #         }
+    #
+    #         td, th {
+    #         border: 1px solid transparent; /* No more visible border */
+    #         height: 30px;
+    #         }
+    #
+    #         th {
+    #         background: #DFDFDF; /* Darken header a bit */
+    #         font-weight: bold;
+    #         }
+    #
+    #         td {
+    #         background: #FAFAFA;
+    #         text-align: center;
+    #         }
+    #
+    #         table tr:nth-child(odd) td{
+    #         background-color: white;
+    #         }
+    #         </style>
+    # """
+
     # ensure that a json request was properly uploaded to our endpoint
     # if flask.request.method == "POST":
     # #flask methods: https://www.tutorialspoint.com/flask/flask_http_methods.htm
@@ -161,13 +197,22 @@ def predict():
         print(final_output)
 
         #save dataframe as image... lol
-        reco_image = final_output.write(data.to_html())
+        #reco_image = final_output.write(data.to_html())
 
+        #write css
+        final_output.write(css)
+
+        #write HTML-ized pandas df
+        final_output.write(data.to_html())
+        final_output.close()
+
+        #crop final image
+        print("* Saving results in an image....")
         imgkitoptions = {"format": "png"}
         imgkit.from_file("filename.html", outputfile, options=imgkitoptions)
 
 
-    return render_template('recommendations.html', reco_image = './ ')
+    return render_template("recommendations.html", reco_image = './Static/reco_image.png')
 
     '''
     Checks to see if the name module was called interactively and
