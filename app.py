@@ -7,6 +7,7 @@ import flask
 import json
 from recommender_lib import generate_recommendations
 import numpy as np
+import pandas as pd
 
 
 app = Flask(__name__, template_folder='templates')
@@ -150,7 +151,23 @@ def predict():
     #         # indicate that the request was a success
     #         data["success"] = True
     # return the data dictionary as a JSON response
-    return data["recommendations"][0] #flask.jsonify({'task': task}), 201
+    #return data["recommendations"][0] #flask.jsonify({'task': task}),
+
+        #save output as json
+        data_json = flask.jsonify(data)
+
+        #turn json into dataframe
+        final_output = pd.read_json(data_json)
+        print(final_output)
+
+        #save dataframe as image... lol
+        reco_image = final_output.write(data.to_html())
+
+        imgkitoptions = {"format": "png"}
+        imgkit.from_file("filename.html", outputfile, options=imgkitoptions)
+
+
+    return render_template('recommendations.html', reco_image = './ ')
 
     '''
     Checks to see if the name module was called interactively and
