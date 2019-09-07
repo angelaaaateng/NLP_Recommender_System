@@ -119,7 +119,8 @@ def predict():
     #if not title:
     #    return("No file selected. Please choose a JSON file and try again.")
 
-    data = {"success": False}
+    data = {}
+    #data = {"success": False}
     print("* Initialization ok")
     if flask.request.method == "POST":
     #flask methods: https://www.tutorialspoint.com/flask/flask_http_methods.htm
@@ -135,7 +136,7 @@ def predict():
             #using generate recommendations from pangea python script
         data["recommendations"] = generate_recommendations(title, model)
             # indicate that the request was a success
-        data["success"] = True
+        #data["success"] = True
 
     # css = """
     #         <style type=\"text/css\">
@@ -190,11 +191,16 @@ def predict():
     #return data["recommendations"][0] #flask.jsonify({'task': task}),
 
         #save output as json
+        print("Data", data)
+        print("***END OF DATA***")
+        print("First Entry:", data['recommendations'][0])
         data_json = flask.jsonify(data)
 
         #turn json into dataframe
         final_output = pd.read_json(data_json)
         print(final_output)
+
+        final_output = data
 
         #save dataframe as image... lol
         #reco_image = final_output.write(data.to_html())
