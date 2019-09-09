@@ -12,6 +12,7 @@ import imgkit
 
 import matplotlib.pyplot as plt
 from io import StringIO
+from PIL import Image
 
 app = Flask(__name__, template_folder='templates')
 #for more information on flask easy startup see
@@ -200,6 +201,10 @@ def predict():
 
         final_output = data['recommendations'][0:10]
         print("TYPE", type(final_output))
+
+        new_img = Image.new("L", (5, 5), "white")
+        new_img.putdata(final_output )
+        new_img.save('./Static/reco_image.png')
         #fig, ax = plt.subplot(111, frame_on=False) # no visible frame
         #ax.xaxis.set_visible(False)  # hide the x axis
         #ax.yaxis.set_visible(False)  # hide the y axis
@@ -222,17 +227,18 @@ def predict():
         # final_output.write(css)
 
         # write HTML-ized pandas df
-        final_output = StringIO()
-        final_output.write(data.to_html())
-        final_output.close()
+        # final_output = StringIO()
+        # final_output.write(data.to_html())
+        # final_output.close()
 
         #crop final image
         print("* Saving results in an image....")
-        imgkitoptions = {"format": "png"}
-        imgkit.from_file("filename.html", outputfile, options=imgkitoptions)
+        # imgkitoptions = {"format": "png"}
+        # imgkit.from_file("filename.html", outputfile, options=imgkitoptions)
 
 
     return render_template("recommendations.html", reco_image = './Static/reco_image.png')
+    #return render_template('result.html', result = final_output)
 
     '''
     Checks to see if the name module was called interactively and
