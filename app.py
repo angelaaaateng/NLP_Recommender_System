@@ -11,6 +11,7 @@ import pandas as pd
 import imgkit
 
 import matplotlib.pyplot as plt
+from io import StringIO
 
 app = Flask(__name__, template_folder='templates')
 #for more information on flask easy startup see
@@ -198,7 +199,7 @@ def predict():
         print("First 10 Entryies:", data['recommendations'][0:10])
 
         final_output = data['recommendations'][0:10]
-        print(type(final_output))
+        print("TYPE", type(final_output))
         #fig, ax = plt.subplot(111, frame_on=False) # no visible frame
         #ax.xaxis.set_visible(False)  # hide the x axis
         #ax.yaxis.set_visible(False)  # hide the y axis
@@ -215,14 +216,15 @@ def predict():
         #final_output = data
 
         #save dataframe as image... lol
-        reco_image = final_output.write(data.to_html())
+        #reco_image = final_output.write(data.to_html())
 
         #write css
-        #final_output.write(css)
+        # final_output.write(css)
 
-        #write HTML-ized pandas df
-        #final_output.write(data.to_html())
-        #final_output.close()
+        # write HTML-ized pandas df
+        final_output = StringIO()
+        final_output.write(data.to_html())
+        final_output.close()
 
         #crop final image
         print("* Saving results in an image....")
