@@ -43,8 +43,9 @@ def find_vocab():
 
     Output: (dict)
     '''
-    return model.vocab
     print("* Model Vocab Loaded")
+    return model.vocab
+
 
 @app.route('/')
 #def my_form():
@@ -202,9 +203,9 @@ def predict():
         final_output = data['recommendations'][0:10]
         print("TYPE", type(final_output))
 
-        new_img = Image.new("L", (5, 5), "white")
-        new_img.putdata(final_output )
-        new_img.save('./Static/reco_image.png')
+        # new_img = Image.new("L", (5, 5), "white")
+        # new_img.putdata(final_output )
+        # new_img.save('./Static/reco_image.png')
         #fig, ax = plt.subplot(111, frame_on=False) # no visible frame
         #ax.xaxis.set_visible(False)  # hide the x axis
         #ax.yaxis.set_visible(False)  # hide the y axis
@@ -237,7 +238,7 @@ def predict():
         # imgkit.from_file("filename.html", outputfile, options=imgkitoptions)
 
 
-    return render_template("recommendations.html", reco_image = './Static/reco_image.png')
+    return render_template("recommendations.html", recommendations = final_output)
     #return render_template('result.html', result = final_output)
 
     '''

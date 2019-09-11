@@ -5,6 +5,19 @@
 <title> NLP Recommender System: Project Matches </title>
 </head>
    <body>
-      <img src="{{ reco_image }}" alt="List of Recommendations">
+     <table >
+      <tr>
+      <th>Title</th>
+      <th>Similarity Score</th> 
+      </tr>
+     {% for item in recommendations %}
+         <tr>
+
+             <td>{{ item[0] }}</td>
+
+             <td>{{ item[1] }}</td>
+         </tr>
+      {% endfor %}
+    </table>
    </body>
 </html>
