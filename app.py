@@ -33,7 +33,8 @@ def load_model():
     that we can use after startup
     '''
     global model
-    model = gensim.models.KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary = True)
+    #model = gensim.models.KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary = True)
+    model = gensim.models.KeyedVectors.load("./Google_lim_75000")
     #model = {"cook": np.array([0.5, 0.6])}
     print("* Model loaded successfully")
 
