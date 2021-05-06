@@ -72,7 +72,7 @@ feather-format==0.4.0
 filelock==3.0.12
 Fiona==1.8.6
 Flask==1.0.3
-Flask-Cors==3.0.7
+Flask-Cors==3.0.9
 flask-emails==0.4.2
 Flask-Mail==0.9.1
 Flask-RESTful==0.3.7
