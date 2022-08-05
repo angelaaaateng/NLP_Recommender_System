@@ -199,7 +199,7 @@ psutil==5.6.2
 ptyprocess==0.6.0
 py==1.8.0
 py2neo==4.3.0
-pyarrow==0.13.0
+pyarrow==0.15.1
 pycodestyle==2.5.0
 pycosat==0.6.3
 pycparser==2.19
